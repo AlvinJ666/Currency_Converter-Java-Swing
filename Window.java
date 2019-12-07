@@ -1,9 +1,6 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
-
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -20,23 +17,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.awt.Color;
 public class Windows {
-
+	
 	private JFrame frmCurrencyConverter;
 	private JTextField textField;
 	private static double input,rate;
@@ -124,9 +111,10 @@ public class Windows {
 				"Venezuelan Bolivar",
 				"US Dollar"};
 
-		frmCurrencyConverter = new JFrame();
+		frmCurrencyConverter = new JFrame();		
 		frmCurrencyConverter.setTitle("Currency Converter");
 		frmCurrencyConverter.setBounds(100, 100, 869, 312);
+		frmCurrencyConverter.setResizable(false);
 		frmCurrencyConverter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -141,7 +129,6 @@ public class Windows {
 		JLabel from = new JLabel("FROM");
 		from.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		GridBagConstraints gbc_from = new GridBagConstraints();
-		gbc_from.anchor = GridBagConstraints.WEST;
 		gbc_from.insets = new Insets(0, 0, 5, 5);
 		gbc_from.gridx = 1;
 		gbc_from.gridy = 1;
@@ -164,7 +151,6 @@ public class Windows {
 		JLabel to = new JLabel("TO");
 		to.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		GridBagConstraints gbc_to = new GridBagConstraints();
-		gbc_to.anchor = GridBagConstraints.WEST;
 		gbc_to.insets = new Insets(0, 0, 5, 5);
 		gbc_to.gridwidth = 2;
 		gbc_to.gridx = 3;
@@ -196,13 +182,22 @@ public class Windows {
 		textField.setText("0.0");
 		textField.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints input_amount = new GridBagConstraints();
-		input_amount.gridwidth = 4;
+		input_amount.gridwidth = 2;
 		input_amount.insets = new Insets(0, 0, 5, 5);
 		input_amount.fill = GridBagConstraints.HORIZONTAL;
 		input_amount.gridx = 2;
 		input_amount.gridy = 2;
 		panel.add(textField, input_amount);
 		textField.setColumns(10);
+		
+		JLabel base_unit = new JLabel("");
+		base_unit.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
+		GridBagConstraints gbc_base_unit = new GridBagConstraints();
+		gbc_base_unit.fill = GridBagConstraints.HORIZONTAL;
+		gbc_base_unit.insets = new Insets(0, 0, 5, 5);
+		gbc_base_unit.gridx = 5;
+		gbc_base_unit.gridy = 2;
+		panel.add(base_unit, gbc_base_unit);
 		
 		JLabel Get = new JLabel("Get:");
 		Get.setHorizontalAlignment(SwingConstants.CENTER);
@@ -226,41 +221,17 @@ public class Windows {
 		gbc_output_amount.gridy = 4;
 		panel.add(output_amount, gbc_output_amount);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 5;
-		gbc_lblNewLabel_1.gridy = 4;
-		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		JButton Reverse = new JButton("Reverse");
-		Reverse.setMnemonic('r');		
-		
-		Reverse.addActionListener(new ActionListener() {
-			int click=0;
-			public void actionPerformed(ActionEvent arg0) {
-				if(rate>0) {
-					rate=1/rate;
-					output_amount.setText(String.valueOf(rate*input));
-					click++;
-					if(click%2==1)
-						{Reverse.setText("Reverse Back");
-						lblNewLabel_1.setText(baseCurr_list.getSelectedItem().toString());
-						}
-					else 
-						{Reverse.setText("Reverse");
-						lblNewLabel_1.setText(ToCerr_list.getSelectedItem().toString());
-						}
-				}
-			}
-		});
-		Reverse.setFont(new Font("Sylfaen", Font.BOLD, 20));
-		GridBagConstraints gbc_Reverse = new GridBagConstraints();
-		gbc_Reverse.insets = new Insets(0, 0, 5, 5);
-		gbc_Reverse.gridx = 2;
-		gbc_Reverse.gridy = 5;
-		panel.add(Reverse, gbc_Reverse);
+		JLabel unit = new JLabel("");
+		unit.setHorizontalAlignment(SwingConstants.LEFT);
+		unit.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
+		GridBagConstraints gbc_unit = new GridBagConstraints();
+		gbc_unit.fill = GridBagConstraints.HORIZONTAL;
+		gbc_unit.gridwidth = 2;
+		gbc_unit.anchor = GridBagConstraints.WEST;
+		gbc_unit.insets = new Insets(0, 0, 5, 0);
+		gbc_unit.gridx = 5;
+		gbc_unit.gridy = 4;
+		panel.add(unit, gbc_unit);
 		
 		JButton Update = new JButton(" Update ");
 		Update.setMnemonic('u');
@@ -275,9 +246,25 @@ public class Windows {
 				if(rate<0||input<0) {
 					output_amount.setText("Please enter a non-negative number.");
 				}
-				else 
+				else {
 					output_amount.setText(String.format("%.5f",rate*input));
+					base_unit.setText(ToCerr_list.getSelectedItem().toString());
+				}
 			} });
+		
+		JButton precision = new JButton("More Precision");
+		precision.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				output_amount.setText(String.format("%.10f",rate*input));
+			}
+		});
+		precision.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		precision.setMnemonic('p');
+		GridBagConstraints gbc_precision = new GridBagConstraints();
+		gbc_precision.insets = new Insets(0, 0, 5, 5);
+		gbc_precision.gridx = 2;
+		gbc_precision.gridy = 5;
+		panel.add(precision, gbc_precision);
 		Convert.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		GridBagConstraints Convert_Pan = new GridBagConstraints();
 		Convert_Pan.insets = new Insets(0, 0, 5, 5);
@@ -301,6 +288,35 @@ public class Windows {
 		TimePan.gridx = 2;
 		TimePan.gridy = 6;
 		panel.add(Time, TimePan);
+		JButton Reverse = new JButton("Reverse");
+		Reverse.setMnemonic('r');		
+		
+		Reverse.addActionListener(new ActionListener() {
+			int click=0;
+			public void actionPerformed(ActionEvent arg0) {
+				if(rate>0) {
+					rate=1/rate;
+					output_amount.setText(String.format("%.5f",rate*input));
+					click++;
+					if(click%2==1)
+						{Reverse.setText("Reverse Back");
+						base_unit.setText(ToCerr_list.getSelectedItem().toString());
+						unit.setText(baseCurr_list.getSelectedItem().toString());
+						}
+					else 
+						{Reverse.setText("Reverse");
+						base_unit.setText(baseCurr_list.getSelectedItem().toString());
+						unit.setText(ToCerr_list.getSelectedItem().toString());
+						}
+				}
+			}
+		});
+		Reverse.setFont(new Font("Sylfaen", Font.BOLD, 20));
+		GridBagConstraints gbc_Reverse = new GridBagConstraints();
+		gbc_Reverse.insets = new Insets(0, 0, 0, 5);
+		gbc_Reverse.gridx = 5;
+		gbc_Reverse.gridy = 6;
+		panel.add(Reverse, gbc_Reverse);
 		
 		Update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

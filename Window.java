@@ -1,6 +1,7 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -23,7 +24,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 public class Windows {
-	
 	private JFrame frmCurrencyConverter;
 	private JTextField textField;
 	private static double input,rate;
@@ -113,39 +113,41 @@ public class Windows {
 
 		frmCurrencyConverter = new JFrame();		
 		frmCurrencyConverter.setTitle("Currency Converter");
-		frmCurrencyConverter.setBounds(100, 100, 869, 312);
+		frmCurrencyConverter.setBounds(100, 100, 839, 246);
 		frmCurrencyConverter.setResizable(false);
 		frmCurrencyConverter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(240, 255, 240));
+		panel.setForeground(Color.WHITE);
 		frmCurrencyConverter.getContentPane().add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{32, 79, 57, 23, 11, 57, 116, 0};
-		gbl_panel.rowHeights = new int[]{43, 25, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{43, 25, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
+		JScrollBar pane = new JScrollBar();
 		
 		JLabel from = new JLabel("FROM");
 		from.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		GridBagConstraints gbc_from = new GridBagConstraints();
 		gbc_from.insets = new Insets(0, 0, 5, 5);
 		gbc_from.gridx = 1;
-		gbc_from.gridy = 1;
+		gbc_from.gridy = 0;
 		panel.add(from, gbc_from);
 		
 		JComboBox baseCurr_list = new JComboBox<String>();
-		baseCurr_list.setForeground(Color.DARK_GRAY);
-		JScrollBar pane = new JScrollBar();
+		baseCurr_list.setForeground(new Color(30, 144, 255));
 		baseCurr_list.setModel(new DefaultComboBoxModel(currency));
 		baseCurr_list.addItem(pane);
-		baseCurr_list.setMaximumRowCount(52);
+		baseCurr_list.setMaximumRowCount(20);
 		baseCurr_list.setFont(new Font("Sitka Text", Font.BOLD, 20));
 		GridBagConstraints gbc_baseCurr_list = new GridBagConstraints();
 		gbc_baseCurr_list.fill = GridBagConstraints.HORIZONTAL;
 		gbc_baseCurr_list.insets = new Insets(0, 0, 5, 5);
 		gbc_baseCurr_list.gridx = 2;
-		gbc_baseCurr_list.gridy = 1;
+		gbc_baseCurr_list.gridy = 0;
 		panel.add(baseCurr_list, gbc_baseCurr_list);
 		
 		JLabel to = new JLabel("TO");
@@ -154,18 +156,18 @@ public class Windows {
 		gbc_to.insets = new Insets(0, 0, 5, 5);
 		gbc_to.gridwidth = 2;
 		gbc_to.gridx = 3;
-		gbc_to.gridy = 1;
+		gbc_to.gridy = 0;
 		panel.add(to, gbc_to);
 		
 		JComboBox<String> ToCerr_list = new JComboBox<String>();
-		ToCerr_list.setForeground(Color.BLUE);
+		ToCerr_list.setForeground(new Color(210, 105, 30));
 		ToCerr_list.setModel(new DefaultComboBoxModel<String>(currency));
-		ToCerr_list.setMaximumRowCount(52);
+		ToCerr_list.setMaximumRowCount(20);
 		ToCerr_list.setFont(new Font("Sitka Subheading", Font.BOLD, 20));
 		GridBagConstraints gbc_ToCerr_list = new GridBagConstraints();
 		gbc_ToCerr_list.insets = new Insets(0, 0, 5, 5);
 		gbc_ToCerr_list.gridx = 5;
-		gbc_ToCerr_list.gridy = 1;
+		gbc_ToCerr_list.gridy = 0;
 		panel.add(ToCerr_list, gbc_ToCerr_list);
 		
 		JLabel amount = new JLabel("Amount:");
@@ -174,7 +176,7 @@ public class Windows {
 		GridBagConstraints gbc_amount = new GridBagConstraints();
 		gbc_amount.insets = new Insets(0, 0, 5, 5);
 		gbc_amount.gridx = 1;
-		gbc_amount.gridy = 2;
+		gbc_amount.gridy = 1;
 		panel.add(amount, gbc_amount);
 		
 		textField = new JTextField();
@@ -186,17 +188,18 @@ public class Windows {
 		input_amount.insets = new Insets(0, 0, 5, 5);
 		input_amount.fill = GridBagConstraints.HORIZONTAL;
 		input_amount.gridx = 2;
-		input_amount.gridy = 2;
+		input_amount.gridy = 1;
 		panel.add(textField, input_amount);
 		textField.setColumns(10);
 		
-		JLabel base_unit = new JLabel("");
+		JLabel base_unit = new JLabel("*");
+		base_unit.setForeground(new Color(100, 149, 237));
 		base_unit.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
 		GridBagConstraints gbc_base_unit = new GridBagConstraints();
 		gbc_base_unit.fill = GridBagConstraints.HORIZONTAL;
 		gbc_base_unit.insets = new Insets(0, 0, 5, 5);
 		gbc_base_unit.gridx = 5;
-		gbc_base_unit.gridy = 2;
+		gbc_base_unit.gridy = 1;
 		panel.add(base_unit, gbc_base_unit);
 		
 		JLabel Get = new JLabel("Get:");
@@ -205,7 +208,7 @@ public class Windows {
 		GridBagConstraints gbc_Get = new GridBagConstraints();
 		gbc_Get.insets = new Insets(0, 0, 5, 5);
 		gbc_Get.gridx = 1;
-		gbc_Get.gridy = 4;
+		gbc_Get.gridy = 2;
 		panel.add(Get, gbc_Get);
 		
 		JLabel output_amount = new JLabel("0.0");
@@ -218,10 +221,11 @@ public class Windows {
 		gbc_output_amount.anchor = GridBagConstraints.WEST;
 		gbc_output_amount.insets = new Insets(0, 0, 5, 5);
 		gbc_output_amount.gridx = 2;
-		gbc_output_amount.gridy = 4;
+		gbc_output_amount.gridy = 2;
 		panel.add(output_amount, gbc_output_amount);
 		
-		JLabel unit = new JLabel("");
+		JLabel unit = new JLabel("*");
+		unit.setForeground(new Color(210, 105, 30));
 		unit.setHorizontalAlignment(SwingConstants.LEFT);
 		unit.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
 		GridBagConstraints gbc_unit = new GridBagConstraints();
@@ -230,21 +234,22 @@ public class Windows {
 		gbc_unit.anchor = GridBagConstraints.WEST;
 		gbc_unit.insets = new Insets(0, 0, 5, 0);
 		gbc_unit.gridx = 5;
-		gbc_unit.gridy = 4;
+		gbc_unit.gridy = 2;
 		panel.add(unit, gbc_unit);
-		
-		JButton Update = new JButton(" Update ");
-		Update.setMnemonic('u');
-		Update.setFont(new Font("Sylfaen", Font.BOLD, 20));
 		
 		JButton Convert = new JButton("Convert ");
 		Convert.setMnemonic('c');
 		Convert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				rate=crecy[ToCerr_list.getSelectedIndex()]/crecy[baseCurr_list.getSelectedIndex()];
-				input=Double.parseDouble(textField.getText());
+				try {
+					input=Double.parseDouble(textField.getText());}
+				catch (NumberFormatException e) {
+					output_amount.setText("Accept number >=0");
+					return;
+				}
 				if(rate<0||input<0) {
-					output_amount.setText("Please enter a non-negative number.");
+					output_amount.setText("Accept number >=0");
 				}
 				else {
 					output_amount.setText(String.format("%.5f",rate*input));
@@ -263,31 +268,14 @@ public class Windows {
 		GridBagConstraints gbc_precision = new GridBagConstraints();
 		gbc_precision.insets = new Insets(0, 0, 5, 5);
 		gbc_precision.gridx = 2;
-		gbc_precision.gridy = 5;
+		gbc_precision.gridy = 3;
 		panel.add(precision, gbc_precision);
 		Convert.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		GridBagConstraints Convert_Pan = new GridBagConstraints();
 		Convert_Pan.insets = new Insets(0, 0, 5, 5);
 		Convert_Pan.gridx = 5;
-		Convert_Pan.gridy = 5;
+		Convert_Pan.gridy = 3;
 		panel.add(Convert, Convert_Pan);
-		GridBagConstraints gbc_Update = new GridBagConstraints();
-		gbc_Update.insets = new Insets(0, 0, 0, 5);
-		gbc_Update.gridx = 1;
-		gbc_Update.gridy = 6;
-		panel.add(Update, gbc_Update);
-		
-		Time = new JLabel();
-		Time.setForeground(new Color(0, 128, 0));
-		Time.setBackground(Color.ORANGE);
-		Time.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		
-		Time.setText(LocalDateTime.now().format(dtf));
-		GridBagConstraints TimePan = new GridBagConstraints();
-		TimePan.insets = new Insets(0, 0, 0, 5);
-		TimePan.gridx = 2;
-		TimePan.gridy = 6;
-		panel.add(Time, TimePan);
 		JButton Reverse = new JButton("Reverse");
 		Reverse.setMnemonic('r');		
 		
@@ -311,18 +299,46 @@ public class Windows {
 				}
 			}
 		});
-		Reverse.setFont(new Font("Sylfaen", Font.BOLD, 20));
-		GridBagConstraints gbc_Reverse = new GridBagConstraints();
-		gbc_Reverse.insets = new Insets(0, 0, 0, 5);
-		gbc_Reverse.gridx = 5;
-		gbc_Reverse.gridy = 6;
-		panel.add(Reverse, gbc_Reverse);
+		
+		JButton Update = new JButton(" Update ");
+		Update.setMnemonic('u');
+		Update.setFont(new Font("Sylfaen", Font.BOLD, 20));
+		GridBagConstraints gbc_Update = new GridBagConstraints();
+		gbc_Update.insets = new Insets(0, 0, 0, 5);
+		gbc_Update.gridx = 1;
+		gbc_Update.gridy = 4;
+		panel.add(Update, gbc_Update);
 		
 		Update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				getData();
 				Time.setText(LocalDateTime.now().format(dtf));
 			} });
+		
+		Time = new JLabel();
+		Time.setForeground(new Color(255, 69, 0));
+		Time.setBackground(Color.ORANGE);
+		Time.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		
+		Time.setText(LocalDateTime.now().format(dtf));
+		GridBagConstraints TimePan = new GridBagConstraints();
+		TimePan.insets = new Insets(0, 0, 0, 5);
+		TimePan.gridx = 2;
+		TimePan.gridy = 4;
+		panel.add(Time, TimePan);
+		Reverse.setFont(new Font("Sylfaen", Font.BOLD, 20));
+		GridBagConstraints gbc_Reverse = new GridBagConstraints();
+		gbc_Reverse.insets = new Insets(0, 0, 0, 5);
+		gbc_Reverse.gridx = 5;
+		gbc_Reverse.gridy = 4;
+		panel.add(Reverse, gbc_Reverse);
+		
+		JLabel lblNewLabel = new JLabel("--Designed by D.J.");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.gridx = 6;
+		gbc_lblNewLabel.gridy = 4;
+		panel.add(lblNewLabel, gbc_lblNewLabel);
 	}
 	public void getData() {		
 	int i=0;
@@ -355,11 +371,9 @@ public class Windows {
 					    				 crecy[i/2]=crcy[i];
 					    			 }
 					    		 }
-					    		 i++;}
-					    		 
+					    		 i++;}					    		 
 					         }							    	 
 					        }
-
 					     in.close();
 					     double temp=crecy[50];
 					     for(int a=49;a>13;a--) {/*correct sequence*/

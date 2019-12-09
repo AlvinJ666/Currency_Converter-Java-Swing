@@ -20,34 +20,43 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 public class Windows {
+	private int indf5=0;
 	private JFrame frmCurrencyConverter;
+	private JButton update;
 	private JTextField textField;
 	private static double input,rate;
 	private JLabel Time;
 	final DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss");
-	static double crcy[]=new double[120];//
+	static double crcy[]=new double[120];//base currency
 	
 	static double crecy[]=new double[60] ;//exchange currency
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-			
-		Windows window = new Windows();
-		window.getData();
-		window.frmCurrencyConverter.setVisible(true);
-		
-		}
+	
 	/**
 	 * Create the application.
 	 */
 	public Windows() {
 		
 		initialize();
+		Timer t = new Timer();
+
+		t.scheduleAtFixedRate(
+		    new TimerTask()
+		    {
+		        public void run()
+		        {
+		           update.doClick();
+		        }
+		    },0,  60000);
 		
 	}
 
@@ -184,7 +193,6 @@ public class Windows {
 		textField.setText("0.0");
 		textField.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints input_amount = new GridBagConstraints();
-		input_amount.gridwidth = 2;
 		input_amount.insets = new Insets(0, 0, 5, 5);
 		input_amount.fill = GridBagConstraints.HORIZONTAL;
 		input_amount.gridx = 2;
@@ -252,15 +260,30 @@ public class Windows {
 					output_amount.setText("Accept number >=0");
 				}
 				else {
-					output_amount.setText(String.format("%.5f",rate*input));
-					base_unit.setText(ToCerr_list.getSelectedItem().toString());
+					if(indf5==1) {
+						output_amount.setText(String.format("%.10f",rate*input));
+						}
+						else if(indf5==0){
+							output_amount.setText(String.format("%.5f",rate*input));
+						}
+					base_unit.setText(baseCurr_list.getSelectedItem().toString());
+					unit.setText(ToCerr_list.getSelectedItem().toString());
 				}
 			} });
 		
 		JButton precision = new JButton("More Precision");
 		precision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(indf5==0) {
 				output_amount.setText(String.format("%.10f",rate*input));
+				precision.setText("Less Precision");
+				indf5=1;
+				}
+				else if(indf5==1){
+					output_amount.setText(String.format("%.5f",rate*input));
+					precision.setText("More Precision");
+					indf5=0;
+				}
 			}
 		});
 		precision.setFont(new Font("Tahoma", Font.ITALIC, 20));
@@ -284,7 +307,12 @@ public class Windows {
 			public void actionPerformed(ActionEvent arg0) {
 				if(rate>0) {
 					rate=1/rate;
-					output_amount.setText(String.format("%.5f",rate*input));
+					if(indf5==1) {
+						output_amount.setText(String.format("%.10f",rate*input));
+						}
+						else if(indf5==0){
+							output_amount.setText(String.format("%.5f",rate*input));
+						}
 					click++;
 					if(click%2==1)
 						{Reverse.setText("Reverse Back");
@@ -300,16 +328,16 @@ public class Windows {
 			}
 		});
 		
-		JButton Update = new JButton(" Update ");
-		Update.setMnemonic('u');
-		Update.setFont(new Font("Sylfaen", Font.BOLD, 20));
+		update = new JButton(" Update ");
+		update.setMnemonic('u');
+		update.setFont(new Font("Sylfaen", Font.BOLD, 20));
 		GridBagConstraints gbc_Update = new GridBagConstraints();
 		gbc_Update.insets = new Insets(0, 0, 0, 5);
 		gbc_Update.gridx = 1;
 		gbc_Update.gridy = 4;
-		panel.add(Update, gbc_Update);
+		panel.add(update, gbc_Update);
 		
-		Update.addActionListener(new ActionListener() {
+		update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				getData();
 				Time.setText(LocalDateTime.now().format(dtf));
@@ -400,5 +428,11 @@ public class Windows {
 			} catch (IOException e) {						
 				e.printStackTrace();
 			}
+		}
+	public static void main(String[] args) {
+		
+		Windows window = new Windows();
+		window.frmCurrencyConverter.setVisible(true);
+		
 		}
 }
